@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Monika</title>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none !important;
+        }
+
+        body {
+            overflow-x: hidden;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Star Cursor */
+        #cursor {
+            position: fixed;
+            width: 30px;
+            height: 30px;
+            pointer-events: none;
+            z-index: 10000;
+            filter: drop-shadow(0 0 8px rgba(251, 191, 36, 0.8));
+        }
+
+        .star-trail {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            pointer-events: none;
+            z-index: 9999;
+            animation: fadeOut 1.5s ease-out forwards;
+        }
+
+        @keyframes fadeOut {
+            0% { opacity: 1; transform: scale(1) rotate(0deg); }
+            100% { opacity: 0; transform: scale(0.3) rotate(180deg); }
+        }
+
+        /* Home Page */
+        .home-page {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            padding: 20px;
+        }
+
+        /* Animated gradient overlay */
+        .home-page::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(45deg, 
+                rgba(255, 0, 128, 0.1), 
+                rgba(128, 0, 255, 0.1), 
+                rgba(0, 128, 255, 0.1),
+                rgba(255, 215, 0, 0.1));
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .watermark {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.08;
+            user-select: none;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .watermark h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3rem, 10vw, 9rem);
+            font-weight: bold;
+            color: white;
+            white-space: nowrap;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+        }
+
+        .home-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            max-width: 900px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .home-content p {
+            margin-bottom: 1.5rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .home-content .text1 {
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            color: #ffd7e6;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .home-content .text2 {
+            font-size: clamp(1.125rem, 3vw, 1.5rem);
+            font-weight: 400;
+            color: #e9d5ff;
+        }
+
+        .home-content .text3 {
+            font-size: clamp(1rem, 2.5vw, 1.25rem);
+            font-style: italic;
+            color: #bfdbfe;
+        }
+
+        .galaxy-button {
+            margin-top: 2.5rem;
+            padding: 1.25rem 2.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+            font-weight: 700;
+            border: none;
+            border-radius: 50px;
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .galaxy-button::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .galaxy-button:hover::before {
+            opacity: 1;
+        }
+
+        .galaxy-button:hover {
+            transform: scale(1.08) translateY(-3px);
+            box-shadow: 0 20px 45px rgba(245, 87, 108, 0.5);
+        }
+
+        .galaxy-button span {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Galaxy Page */
+        .galaxy-page {
+            min-height: 100vh;
+            background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Shooting stars */
+        @keyframes shooting {
+            0% {
+                transform: translateX(0) translateY(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(-500px) translateY(500px);
+                opacity: 0;
+            }
+        }
+
+        .shooting-star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.5);
+            animation: shooting 3s linear infinite;
+        }
+
+        .home-button {
+            position: fixed;
+            top: 1.5rem;
+            left: 1.5rem;
+            z-index: 50;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-size: clamp(1rem, 2vw, 1.125rem);
+            font-weight: 600;
+            border: none;
+            border-radius: 50px;
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .home-button:hover {
+            transform: scale(1.05) translateY(-2px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.6);
+        }
+
+        .stars-background {
+            position: absolute;
+            inset: 0;
+        }
+
+        .star-bg {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 4s ease-in-out infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.5); }
+        }
+
+        .galaxy-image {
+            position: absolute;
+            cursor: pointer;
+            animation: floatSphere 8s ease-in-out infinite;
+            transition: all 0.3s ease;
+        }
+
+        .galaxy-image:hover {
+            animation-play-state: paused;
+            z-index: 10;
+            filter: brightness(1.2);
+        }
+
+        @keyframes floatSphere {
+            0%, 100% { 
+                transform: translate(-50%, -50%) translateY(0px);
+            }
+            50% { 
+                transform: translate(-50%, -50%) translateY(-20px);
+            }
+        }
+
+        .galaxy-image:nth-child(2n) {
+            animation-duration: 10s;
+        }
+
+        .galaxy-image:nth-child(3n) {
+            animation-duration: 9s;
+            animation-delay: -2s;
+        }
+
+        .galaxy-image:nth-child(4n) {
+            animation-duration: 11s;
+            animation-delay: -4s;
+        }
+
+        .galaxy-image:nth-child(5n) {
+            animation-duration: 7s;
+            animation-delay: -3s;
+        }
+
+        #galaxyImages {
+            position: absolute;
+            inset: 0;
+        }
+
+        .image-container {
+            border-radius: 50%;
+            padding: 5px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            position: relative;
+            transform-style: preserve-3d;
+        }
+
+        .image-container::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4), transparent 50%);
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .image-container::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            box-shadow: 
+                inset -15px -15px 30px rgba(0, 0, 0, 0.5),
+                inset 15px 15px 30px rgba(255, 255, 255, 0.1);
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .image-container.center {
+            width: clamp(160px, 22vw, 240px);
+            height: clamp(160px, 22vw, 240px);
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            box-shadow: 
+                0 0 40px rgba(245, 87, 108, 0.6), 
+                0 10px 40px rgba(0, 0, 0, 0.6),
+                inset -20px -20px 40px rgba(0, 0, 0, 0.4),
+                inset 20px 20px 40px rgba(255, 255, 255, 0.15);
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        .image-container.center::before {
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.5), transparent 60%);
+        }
+
+        @keyframes pulse {
+            0%, 100% { 
+                box-shadow: 
+                    0 0 40px rgba(245, 87, 108, 0.6), 
+                    0 10px 40px rgba(0, 0, 0, 0.6),
+                    inset -20px -20px 40px rgba(0, 0, 0, 0.4),
+                    inset 20px 20px 40px rgba(255, 255, 255, 0.15);
+            }
+            50% { 
+                box-shadow: 
+                    0 0 60px rgba(245, 87, 108, 0.9), 
+                    0 10px 50px rgba(0, 0, 0, 0.8),
+                    inset -20px -20px 40px rgba(0, 0, 0, 0.5),
+                    inset 20px 20px 40px rgba(255, 255, 255, 0.2);
+            }
+        }
+
+        .image-container.regular {
+            width: clamp(100px, 14vw, 160px);
+            height: clamp(100px, 14vw, 160px);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            box-shadow: 
+                0 0 25px rgba(102, 126, 234, 0.5), 
+                0 10px 30px rgba(0, 0, 0, 0.5),
+                inset -15px -15px 30px rgba(0, 0, 0, 0.4),
+                inset 15px 15px 30px rgba(255, 255, 255, 0.15);
+        }
+
+        .image-container.regular::before {
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4), transparent 55%);
+        }
+
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            position: relative;
+            z-index: 1;
+            filter: brightness(0.95);
+        }
+
+        /* Enlarged Image Overlay */
+        .enlarged-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            cursor: pointer;
+            animation: fadeInOverlay 0.3s ease;
+        }
+
+        @keyframes fadeInOverlay {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .enlarged-overlay.active {
+            display: flex;
+        }
+
+        .enlarged-content {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            animation: scaleIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .caption-text {
+            margin-bottom: 2rem;
+            max-width: 90%;
+            text-align: center;
+            font-family: 'Caveat', cursive;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            color: #ffd7e6;
+            z-index: 101;
+            text-shadow: 0 0 20px rgba(255, 215, 230, 0.6);
+            font-weight: 700;
+        }
+
+        .enlarged-image-container {
+            width: clamp(300px, 70vw, 500px);
+            height: clamp(300px, 70vw, 500px);
+            padding: 6px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 50%, #667eea 100%);
+            border-radius: 50%;
+            box-shadow: 0 0 60px rgba(245, 87, 108, 0.8), 0 20px 60px rgba(0, 0, 0, 0.8);
+            animation: rotateGradient 4s linear infinite;
+        }
+
+        @keyframes rotateGradient {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
+
+        .enlarged-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Star SVG */
+        .star-icon {
+            fill: currentColor;
+        }
+
+        /* Floating particles */
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Custom Cursor -->
+    <div id="cursor">
+        <svg class="star-icon" style="color: #fbbf24;" width="30" height="30" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+        </svg>
+    </div>
+
+    <!-- Home Page -->
+    <div id="homePage" class="home-page">
+        <div class="watermark">
+            <h1>Happy Birthday Monika</h1>
+        </div>
+        <div class="home-content">
+            <p class="text1">✨Oyee 21 wali chuin! 🌚✨</p>
+            <p class="text2">Aji 19th December au tu ghare achu mo pakhare nahu🥲. Tu chahi thile mo pakhare rahi pari thantu -- par iski masti toh dekho 🤭--. Aji nahu boli mo pakhare through text kahuchi. Pura dil se lekhichi without 2nd thought😇. Mu tate bohut bohut bhala pae chuin re🥰🌷.. Mu to upare besi ragibini ki au chilleibini🙊. Tu upset habuni au tike kam chidibu🫂. Mu expressive b hebi au ame misiki buliba au bohut enjoy Kariba🎉😁. Urban canteen b jiba au scooty re b buliba🛵. Misiki Khushi re rahiba au besi jhagada karibani🥰. Tu b tike kam chidibu naa🥺 .</p>
+            <p class="text3">Tu aji ghare achu mast enjoy karu thibu au pura dina infact pura week enjoy kar🎉. Thn asile to bday celebrate Kariba🥳. Wish you <b>Happiest wala birthday❤️🎂</b> Chuin😗. I wish tu bohut grow kar au sabu achieve kar jaha tu wish karuchu💭. Just tike mehnat saha!!🤭. Enjoy your day Chuin. Au jaa tale dekh to pain ahuri kichi achi..🌚🌚</p>
+            <p class="text2">Again...</p>
+            <p class="text2">Happiest Birthday Chuin🥳❤️🎂</p>
+            <button class="galaxy-button" onclick="showGalaxy()"><span>Memory Galaxy ✨</span></button>
+        </div>
+    </div>
+
+    <!-- Galaxy Page -->
+    <div id="galaxyPage" class="galaxy-page hidden">
+        <button class="home-button" onclick="showHome()">🏠 Home</button>
+        
+        <div class="stars-background" id="starsBackground"></div>
+        
+        <div id="galaxyImages"></div>
+
+        <!-- Enlarged Image Overlay -->
+        <div id="enlargedOverlay" class="enlarged-overlay" onclick="hideEnlargedImage()">
+            <div class="enlarged-content">
+                <div class="caption-text" id="captionText"></div>
+                <div class="enlarged-image-container">
+                    <img id="enlargedImage" src="" alt="Enlarged memory">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Image data
+        const images = [
+            { id: 0, url: 'main.png', text: 'This is our iconic pose 💖', isCenter: true },
+            { id: 1, url: '1.png', text: 'Tu mo attitude dekhibu 😂🌟' },
+            { id: 2, url: '3.png', text: 'Most santa sistha pila 😂' },
+            { id: 3, url: '4.png', text: 'Kie jhia ta kaha naa ​😁​' },
+            { id: 5, url: '6.png', text: 'Chida laguchi?? 💃​🤪​' },
+            { id: 6, url: '7.png', text: 'Pony wali chuin 😁' },
+            { id: 7, url: '8.png', text: 'You made my day.. 2nd most special day ​🥰​' },
+            { id: 8, url: '9.png', text: 'Colour asila naa finally 🌝🌝' },
+            { id: 9, url: '10.png', text: 'Our last diwali at college 📸​🥰' },
+            { id: 10, url: '11.png', text: 'Oyee Oyee OC Maam!! 🤭​🤭​' },
+        ];
+
+        const positions = [
+            { top: '50%', left: '50%' },
+            { top: '15%', left: '25%' },
+            { top: '12%', left: '65%' },
+            { top: '28%', left: '82%' },
+            { top: '58%', left: '88%' },
+            { top: '78%', left: '68%' },
+            { top: '82%', left: '35%' },
+            { top: '68%', left: '12%' },
+            { top: '42%', left: '8%' },
+            { top: '18%', left: '12%' },
+        ];
+
+        let galaxyInitialized = false;
+
+        // Custom cursor
+        const cursor = document.getElementById('cursor');
+        let mouseX = 0;
+        let mouseY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            cursor.style.left = (mouseX - 15) + 'px';
+            cursor.style.top = (mouseY - 15) + 'px';
+
+            // Create star trail with random colors
+            if (Math.random() > 0.7) {
+                const trail = document.createElement('div');
+                trail.className = 'star-trail';
+                const colors = ['#fcd34d', '#f472b6', '#a78bfa', '#60a5fa'];
+                const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                trail.innerHTML = `<svg class="star-icon" style="color: ${randomColor};" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>`;
+                trail.style.left = (mouseX - 10) + 'px';
+                trail.style.top = (mouseY - 10) + 'px';
+                document.body.appendChild(trail);
+
+                setTimeout(() => trail.remove(), 1500);
+            }
+        });
+
+        // Navigation
+        function showGalaxy() {
+            document.getElementById('homePage').classList.add('hidden');
+            document.getElementById('galaxyPage').classList.remove('hidden');
+            if (!galaxyInitialized) {
+                initGalaxy();
+                galaxyInitialized = true;
+            }
+        }
+
+        function showHome() {
+            document.getElementById('galaxyPage').classList.add('hidden');
+            document.getElementById('homePage').classList.remove('hidden');
+            hideEnlargedImage();
+        }
+
+        // Initialize galaxy
+        function initGalaxy() {
+            // Create stars background with twinkling
+            const starsContainer = document.getElementById('starsBackground');
+            starsContainer.innerHTML = '';
+            for (let i = 0; i < 150; i++) {
+                const star = document.createElement('div');
+                star.className = 'star-bg';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 4 + 's';
+                starsContainer.appendChild(star);
+            }
+
+            // Add shooting stars
+            for (let i = 0; i < 3; i++) {
+                const shootingStar = document.createElement('div');
+                shootingStar.className = 'shooting-star';
+                shootingStar.style.top = Math.random() * 50 + '%';
+                shootingStar.style.left = Math.random() * 100 + '%';
+                shootingStar.style.animationDelay = (Math.random() * 10) + 's';
+                shootingStar.style.animationDuration = (2 + Math.random() * 2) + 's';
+                starsContainer.appendChild(shootingStar);
+            }
+
+            // Create galaxy images
+            const galaxyContainer = document.getElementById('galaxyImages');
+            galaxyContainer.innerHTML = '';
+            
+            images.forEach((image, index) => {
+                const imageDiv = document.createElement('div');
+                imageDiv.className = 'galaxy-image';
+                imageDiv.style.top = positions[index].top;
+                imageDiv.style.left = positions[index].left;
+
+                const container = document.createElement('div');
+                container.className = image.isCenter ? 'image-container center' : 'image-container regular';
+
+                const img = document.createElement('img');
+                img.src = image.url;
+                img.alt = 'Memory ' + image.id;
+
+                container.appendChild(img);
+                imageDiv.appendChild(container);
+                galaxyContainer.appendChild(imageDiv);
+
+                // Click event to enlarge image
+                imageDiv.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    showEnlargedImage(image);
+                });
+            });
+        }
+
+        // Show enlarged image
+        function showEnlargedImage(image) {
+            const overlay = document.getElementById('enlargedOverlay');
+            const enlargedImg = document.getElementById('enlargedImage');
+            const caption = document.getElementById('captionText');
+
+            enlargedImg.src = image.url;
+            caption.textContent = image.text;
+            overlay.classList.add('active');
+        }
+
+        // Hide enlarged image
+        function hideEnlargedImage() {
+            document.getElementById('enlargedOverlay').classList.remove('active');
+        }
+    </script>
+</body>
+</html>
